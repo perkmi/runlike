@@ -190,7 +190,7 @@ class TestRunlike(BaseTest):
         self.expect_substr("--runtime=runc")
 
     def test_shm_size(self):
-        self.expect_substr("--shm-size=536870912")
+        self.expect_substr('--shm-size="536870912"')
 
     def test_pid_mode(self):
         self.expect_substr("--pid host", 2)
