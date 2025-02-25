@@ -13,8 +13,8 @@ jobs:
       - run: pip install poetry
       - run: poetry install
       
-      # Check if version already exists on PyPI
-      - name: Check if version exists on PyPI
+      # Check if version already exists on PyPI and if tag exists
+      - name: Check if version exists on PyPI and if tag exists
         id: version_check
         run: |
           VERSION=$(poetry run ./current_version.py)
@@ -28,6 +28,25 @@ jobs:
             echo "Version $VERSION is new, proceeding with release"
             echo "skip_release=false" >> $GITHUB_OUTPUT
           fi
+          
+          # Check if tag already exists
+          if git tag -l | grep -q "v$VERSION"; then
+            echo "Tag v$VERSION already exists, skipping tag creation"
+            echo "skip_tag=true" >> $GITHUB_OUTPUT
+          else
+            echo "Tag v$VERSION does not exist, will create it"
+            echo "skip_tag=false" >> $GITHUB_OUTPUT
+          fi
+      
+      # Create tag if it doesn't exist
+      - name: Create tag if needed
+        if: steps.version_check.outputs.skip_release != 'true' && steps.version_check.outputs.skip_tag != 'true'
+        run: |
+          VERSION=$(poetry run ./current_version.py)
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag -a "v$VERSION" -m "Release v$VERSION"
+          git push origin "v$VERSION"
       
       # Only run the release steps if the version doesn't exist on PyPI
       - name: Publish to PyPI
