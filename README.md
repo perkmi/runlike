@@ -107,6 +107,7 @@ Probably **shouldn't use this in production** yet. If you do, double check that 
       --rm                             Automatically remove the container
                                        when it exits
       --runtime string                 Runtime to use for this container
+      --shm-size bytes                 Size of /dev/shm
   -t, --tty                            Allocate a pseudo-TTY
   -u, --user string                    Username or UID (format:
                                        <name|uid>[:<group|gid>])
@@ -214,7 +215,6 @@ Probably **shouldn't use this in production** yet. If you do, double check that 
                                        filesystem as read only
 
       --security-opt list              Security Options
-      --shm-size bytes                 Size of /dev/shm
       --sig-proxy                      Proxy received signals to the
                                        process (default true)
       --stop-signal string             Signal to stop a container

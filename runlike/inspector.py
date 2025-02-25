@@ -246,6 +246,11 @@ class Inspector(object):
         if runtime:
             self.options.append(f"--runtime={runtime}")
 
+    def parse_shm_size(self):
+        shm_size = self.get_container_fact("HostConfig.ShmSize")
+        if shm_size:
+            self.options.append(f'--shm-size="{shm_size}"')
+
     def parse_memory(self):
         memory = self.get_container_fact("HostConfig.Memory")
         if memory:
@@ -301,6 +306,7 @@ class Inspector(object):
         self.parse_log()
         self.parse_extra_hosts()
         self.parse_runtime()
+        self.parse_shm_size()
         self.parse_memory()
         self.parse_memory_reservation()
 

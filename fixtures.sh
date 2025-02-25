@@ -47,6 +47,7 @@ sudocker run -d --name runlike_fixture1 \
     --env SET_WITHOUT_VALUE \
     --env UTF_8=ユーザー別サイト \
     --memory="2147483648" \
+    --shm-size="536870912" \
     --memory-reservation="1610612736" \
     -v $(pwd):/workdir \
     -v $(pwd):/workdir_ro:ro \
