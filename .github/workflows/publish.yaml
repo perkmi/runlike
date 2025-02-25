@@ -48,6 +48,16 @@ jobs:
           git tag -a "v$VERSION" -m "Release v$VERSION"
           git push origin "v$VERSION"
       
+      # Create tag if it doesn't exist
+      - name: Create tag if needed
+        if: steps.version_check.outputs.skip_release != 'true' && steps.version_check.outputs.skip_tag != 'true'
+        run: |
+          VERSION=$(poetry run ./current_version.py)
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag -a "v$VERSION" -m "Release v$VERSION"
+          git push origin "v$VERSION"
+      
       # Only run the release steps if the version doesn't exist on PyPI
       - name: Publish to PyPI
         if: steps.version_check.outputs.skip_release != 'true'
