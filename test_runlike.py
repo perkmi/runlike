@@ -240,3 +240,6 @@ class TestRunlikeUseVolumeId(BaseTest):
 
     def test_no_host_volume(self):
         self.expect_substr("--volume test_volume:/test_volume")
+
+    def test_space_in_volume(self):
+        self.expect_substr("--volume test volume:/test volume")
