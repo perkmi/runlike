@@ -139,11 +139,9 @@ class Inspector(object):
     def parse_volumes(self):
         mounts = self.get_container_fact("Mounts")
         for mount in mounts:
-
             name = mount.get("Name", "").replace(' ', '\\ ')
             destination = mount.get("Destination", "").replace(' ', '\\ ')
             source = mount.get("Source", "").replace(' ', '\\ ')
-
             if mount["Type"] == "volume":
                 if self.use_volume_id:
                     volume_format = f'{name}:{destination}'
